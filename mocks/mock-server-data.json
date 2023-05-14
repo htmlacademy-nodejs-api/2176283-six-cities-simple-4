@@ -1,0 +1,116 @@
+{
+  "api": {
+    "titles": [
+      "Квартира со всеми удобствами",
+      "Раскошный пентхаус с отдельным входом",
+      "Комната в центре города",
+      "Квартира с видом на набережную",
+      "Номер в отеле 5 звёзд с панорамными окнами"
+    ],
+    "descriptions": [
+      "Уютная квартира с видом на набережную и театральный дворец",
+      "Шикарный пентхаус с двумя ярусами и собственной парковкой",
+      "Практичная комната с доступом к центру города в пешей доступности",
+      "Квартира в парковой зоне города. Наслаждение природой без отрыва от цивилизации",
+      "Дом для большой и дружной компании для весёлого отдыха",
+      "Современный номер с панорамным видом на сердце города с 31 этажа"
+    ],
+    "cities": [
+      "Paris",
+      "Cologne",
+      "Brussels",
+      "Amsterdam",
+      "Hamburg",
+      "Dusseldorf"
+  ],
+    "previewImages": [
+      "pagemini01.jpg",
+      "pagemini02.jpg",
+      "pagemini03.jpg",
+      "pagemini04.jpg",
+      "pagemini05.jpg",
+      "pagemini06.jpg",
+      "pagemini07.jpg",
+      "pagemini08.jpg",
+      "pagemini09.jpg",
+      "pagemini10.jpg"
+    ],
+    "images": [
+      "page01.jpg",
+      "page02.jpg",
+      "page03.jpg",
+      "page04.jpg",
+      "page05.jpg",
+      "page06.jpg",
+      "page07.jpg",
+      "page08.jpg",
+      "page09.jpg",
+      "page10.jpg",
+      "page11.jpg",
+      "page12.jpg",
+      "page13.jpg",
+      "page14.jpg",
+      "page15.jpg",
+      "page16.jpg",
+      "page17.jpg",
+      "page18.jpg",
+      "page19.jpg",
+      "page20.jpg",
+      "page21.jpg",
+      "page22.jpg"
+    ],
+    "types": [
+      "apartment",
+      "house",
+      "room",
+      "hotel"
+    ],
+    "goods": [
+      "Breakfast",
+      "Air conditioning",
+      "Laptop friendly workspace",
+      "Baby seat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "nicks": [
+      "John Valeo",
+      "Sara Conor",
+      "Jack Torrento",
+      "Garry Watson",
+      "Mia Alvares",
+      "Flipper Lopes",
+      "Andrea Micho",
+      "Fillip Richard",
+      "Alex Han",
+      "Li Chun",
+      "Fo Boo"
+    ],
+    "emails": [
+      "JohnVal@mail.ru",
+      "SaraCo@mail.ru",
+      "snow@pisem.local",
+      "president@dka.local",
+      "fish@big.local",
+      "test@pisem.local",
+      "freedom@pisem.local",
+      "rolan@pochta.local",
+      "author@mir.local",
+      "test@lost.loca",
+      "kujo-fan@story.local"
+    ],
+    "avatars": [
+      "avatar01.jpg",
+      "avatar02.jpg",
+      "avatar03.jpg",
+      "avatar04.jpg",
+      "avatar05.jpg",
+      "avatar06.jpg",
+      "avatar07.jpg",
+      "avatar08.jpg",
+      "avatar09.jpg",
+      "avatar10.jpg"
+    ]
+  }
+}
