@@ -1,46 +1,39 @@
-import { readFileSync } from 'node:fs';
+import { EventEmitter } from 'node:events';
+import { createReadStream } from 'node:fs';
 import { FileReaderInterface } from './file-reader.interface.js';
-import { Offer } from '../../types/offer.type.js';
+
+const CHUNK_SIZE_BIT = 20480;
 
 /**
  * Класс для чтения tsv-файлов
  */
-export default class TSVFileReader implements FileReaderInterface {
-  private rawData = '';
-
-  constructor(public filename: string) { }
-
-  public read(): void {
-    this.rawData = readFileSync(this.filename, { encoding: 'utf8' });
+export default class TSVFileReader extends EventEmitter implements FileReaderInterface {
+  constructor(public filename: string) {
+    super();
   }
 
-  public toArray(): Offer[] {
-    if (!this.rawData) {
-      return [];
+  public async read(): Promise<void> {
+    const stream = createReadStream(this.filename, {
+      highWaterMark: CHUNK_SIZE_BIT,
+      encoding: 'utf-8',
+    });
+
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = 0;
+
+    for await (const chunk of stream) {
+      remainingData += chunk.toString();
+
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        this.emit('line', completeRow);
+      }
     }
 
-    return this.rawData
-      .split('\n')
-      .filter((row) => row.trim() !== '')
-      .map((line) => line.split('\t'))
-      .map(([title, description, date, city, previewImage, images, isPremium, rating, type, bedrooms, maxAdults, price, goods, nick, email, avatar, password, isPro, latitude, longitude]) => ({
-        title,
-        description,
-        date: new Date(date),
-        city,
-        previewImage,
-        images: images.split(';')
-          .map((name) => ({name})),
-        isPremium: Boolean(isPremium),
-        rating: Number.parseFloat(rating),
-        type,
-        bedrooms: Number.parseInt(bedrooms, 10),
-        maxAdults: Number.parseInt(maxAdults, 10),
-        price: Number.parseInt(price, 10),
-        goods: goods.split(';')
-          .map((name) => ({name})),
-        host: {nick, email, avatar, password, isPro: Boolean(isPro)},
-        location: {latitude: Number.parseFloat(latitude), longitude: Number.parseFloat(longitude)},
-      }));
+    this.emit('end', importedRowCount);
   }
 }

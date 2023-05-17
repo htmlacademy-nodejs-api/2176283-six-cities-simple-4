@@ -14,6 +14,12 @@ npm install
 
 В `package.json` предопределено несколько сценариев.
 
+#### Запустить JSON-server
+
+```bash
+npm run mock:server
+```
+
 #### Скомпилировать проект
 
 ```bash
