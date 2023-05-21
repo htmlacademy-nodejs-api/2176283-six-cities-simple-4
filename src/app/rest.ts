@@ -1,4 +1,4 @@
-import { LoggerInterface } from '../core/logger/logger.interface';
+import { LoggerInterface } from '../core/logger/logger.interface.js';
 
 /**
  * Класс для прослушивания порта и приема подключения
