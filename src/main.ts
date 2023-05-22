@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import PinoService from './core/logger/pino.service.js';
 import RestApplication from './app/rest.js';
 import ConfigService from './core/config/config.service.js';
