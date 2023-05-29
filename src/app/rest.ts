@@ -3,7 +3,7 @@ import { RestSchema } from '../core/config/rest.schema.js';
 import { LoggerInterface } from '../core/logger/logger.interface.js';
 import { inject, injectable } from 'inversify';
 import { AppComponent } from '../types/app-component.enum.js';
-import { DatabaseClientInterface } from '../core/database-client/database-client.interface.js';
+import { DatabaseClientInterface } from '../core/database-client/database-client.interface';
 import { getMongoURI } from '../core/helpers/database.js';
 
 /**
@@ -16,7 +16,7 @@ export default class RestApplication {
   constructor(
     @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface,
     @inject(AppComponent.ConfigInterface) private readonly config: ConfigInterface<RestSchema>,
-    @inject(AppComponent.DatabaseClientInterface) private readonly dataBaseClient: DatabaseClientInterface
+    @inject(AppComponent.DatabaseClientInterface) private readonly databaseClient: DatabaseClientInterface
   ) {}
 
   private async _initDb() {
@@ -27,7 +27,7 @@ export default class RestApplication {
       this.config.get('DB_PORT'),
       this.config.get('DB_NAME'),
     );
-    return this.dataBaseClient.connect(mongoUri);
+    return this.databaseClient.connect(mongoUri);
   }
 
   public async init() {

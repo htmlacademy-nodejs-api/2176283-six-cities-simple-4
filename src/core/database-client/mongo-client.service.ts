@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { DatabaseClientInterface } from './database-client.interface.js';
 import mongoose, { Mongoose } from 'mongoose';
-import { AppComponent } from '../../types/app-component.enum';
+import { AppComponent } from '../../types/app-component.enum.js';
 import { LoggerInterface } from '../logger/logger.interface.js';
 
 /**
@@ -17,29 +17,29 @@ import { LoggerInterface } from '../logger/logger.interface.js';
 @injectable()
 export default class MongoClientService implements DatabaseClientInterface {
   private isConnected = false;
-  private mohgooseInstance: Mongoose | null = null;
+  private mongooseInstance: Mongoose | null = null;
 
   constructor(
     @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface
   ) {}
 
   private async _connect(uri: string): Promise<void> {
-    this.mohgooseInstance = await mongoose.connect(uri);
+    this.mongooseInstance = await mongoose.connect(uri);
     this.isConnected = true;
   }
 
   private async _disconnect(): Promise<void> {
-    await this.mohgooseInstance?.disconnect();
+    await this.mongooseInstance?.disconnect();
     this.isConnected = false;
-    this.mohgooseInstance = null;
+    this.mongooseInstance = null;
   }
 
   public async connect(uri: string): Promise<void> {
-    if(this.isConnected) {
+    if (this.isConnected) {
       throw new Error('MongoDB client already connected');
     }
 
-    this.logger.info('Trying to connect to MongoDB…');
+    this.logger.info('Trying to connect to MongoDB...');
     await this._connect(uri);
     this.logger.info('Database connection established.');
   }
