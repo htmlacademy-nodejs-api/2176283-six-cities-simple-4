@@ -11,12 +11,22 @@ export interface UserDocument extends User, mongoose.Document {
  * Конфигурация (схема) документа типа `User`
  */
 const userSchema = new mongoose.Schema({
-  nick: String,
+  nick: {
+    type: String,
+    required: true,
+    minlength: [3, 'Min length for firstname is 3'],
+  },
   email: {
     type: String,
-    unique: true
+    unique: true,
+    required: true,
+    match: [/^([\w-\\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Email is incorrect'],
   },
-  avatar: String,
+  avatar: {
+    type:String,
+    required: true,
+    minlength: [5, 'Min length for avatar path is 5'],
+  },
   password: String,
   isPro: Boolean,
 }, {
