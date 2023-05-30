@@ -3,6 +3,10 @@ import { DatabaseClientInterface } from './database-client.interface.js';
 import mongoose, { Mongoose } from 'mongoose';
 import { AppComponent } from '../../types/app-component.enum.js';
 import { LoggerInterface } from '../logger/logger.interface.js';
+import { setTimeout } from 'node:timers/promises';
+
+const RETRY_COUNT = 5;
+const RETRY_TIMEOUT = 1000;
 
 /**
  * Класс для установки и закрытия соединения с БД MongoDB
@@ -13,6 +17,7 @@ import { LoggerInterface } from '../logger/logger.interface.js';
  * то вызывает приватный метод _disconnect и уведомляет о закрытии
  * @method _connect - выполняет подключение
  * @method _disconnect - выполняет закрытие
+ * @method _connectWithRetry - выполняет повторное соединение с БД
  */
 @injectable()
 export default class MongoClientService implements DatabaseClientInterface {
@@ -23,8 +28,23 @@ export default class MongoClientService implements DatabaseClientInterface {
     @inject(AppComponent.LoggerInterface) private readonly logger: LoggerInterface
   ) {}
 
+  private async _connectWithRetry(uri: string): Promise<Mongoose> {
+    let attempt = 0;
+    while (attempt < RETRY_COUNT) {
+      try {
+        return await mongoose.connect(uri);
+      } catch (error) {
+        attempt++;
+        this.logger.error(`Failed to connect to the database. Attempt ${attempt}`);
+        await setTimeout(RETRY_TIMEOUT);
+      }
+    }
+    this.logger.error(`Unable to establish database connection after ${attempt}`);
+    throw new Error('Failed to connect to the database');
+  }
+
   private async _connect(uri: string): Promise<void> {
-    this.mongooseInstance = await mongoose.connect(uri);
+    this.mongooseInstance = await this._connectWithRetry(uri);
     this.isConnected = true;
   }
 
