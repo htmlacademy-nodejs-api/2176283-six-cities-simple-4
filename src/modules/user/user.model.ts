@@ -12,7 +12,10 @@ export interface UserDocument extends User, mongoose.Document {
  */
 const userSchema = new mongoose.Schema({
   nick: String,
-  email: String,
+  email: {
+    type: String,
+    unique: true
+  },
   avatar: String,
   password: String,
   isPro: Boolean,
