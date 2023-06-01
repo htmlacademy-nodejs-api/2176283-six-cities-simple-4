@@ -11,6 +11,8 @@ import { LoggerInterface } from '../../core/logger/logger.interface.js';
  * Создание новых документов в БД
  * @method create - создание нового документа в БД
  * @method setPassword - хэширование пароля
+ * @method findByEmail - поиск по емаил
+ * @method findOrCreate - поиск по емаил, либо создаем нового
  */
 @injectable()
 export default class UserService implements UserServiceInterface {
@@ -27,5 +29,18 @@ export default class UserService implements UserServiceInterface {
     this.logger.info(`New user created: ${user.email}`);
 
     return result;
+  }
+
+  public async findByEmail(email: string): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findOne({email});
+  }
+
+  public async findOrCreate(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
+    const existedUser = await this.findByEmail(dto.email);
+
+    if (existedUser) {
+      return existedUser;
+    }
+    return this.create(dto, salt);
   }
 }
