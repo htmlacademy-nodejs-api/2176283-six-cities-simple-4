@@ -1,7 +1,4 @@
-import { Good } from '../../../types/good.type.js';
-import { Image } from '../../../types/image.type.js';
 import { Location } from '../../../types/location.type.js';
-import { User } from '../../../types/user.type.js';
 
 export default class CreateOfferDto {
   public title!: string;
@@ -9,14 +6,14 @@ export default class CreateOfferDto {
   public date!: Date;
   public city!: string;
   public previewImage!: string;
-  public images!: Image[];
+  public images!: string[];
   public isPremium!: boolean;
   public rating!: number;
   public type!: string;
   public bedrooms!: number;
   public maxAdults!: number;
   public price!: number;
-  public goods!: Good[];
-  public host!: User;
+  public goods!: string[];
+  public userId!: string;
   public location!: Location;
 }

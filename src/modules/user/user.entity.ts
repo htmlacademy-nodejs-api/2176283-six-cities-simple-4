@@ -1,6 +1,6 @@
-import { User } from '../../types/user.type';
+import { User } from '../../types/user.type.js';
 import typegoose, {defaultClasses, getModelForClass } from '@typegoose/typegoose';
-import { createSHA256 } from '../../core/helpers';
+import { createSHA256 } from '../../core/helpers/common.js';
 
 const {prop, modelOptions} = typegoose;
 

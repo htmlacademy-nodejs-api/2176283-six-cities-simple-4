@@ -24,7 +24,7 @@ export function createOffer(offerData: string): Offer {
     longitude
   ] = offerData.replace('\n', '').split('\t');
 
-  const host = {
+  const user = {
     nick,
     email,
     avatar,
@@ -53,7 +53,7 @@ export function createOffer(offerData: string): Offer {
     price: Number.parseInt(price, 10),
     goods: goods.split(';')
       .map((name) => ({name})),
-    host,
+    user,
     location,
   } as unknown as Offer;
 }

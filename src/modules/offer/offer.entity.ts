@@ -1,10 +1,6 @@
-import { defaultClasses } from '@typegoose/typegoose';
-import typegoose, {getModelForClass} from '@typegoose/typegoose';
-import { Offer } from '../../types/offer.type.js';
-import { Good } from '../../types/good.type.js';
-import { Image } from '../../types/image.type.js';
+import typegoose, { Ref, defaultClasses, getModelForClass} from '@typegoose/typegoose';
 import { Location } from '../../types/location.type.js';
-import { User } from '../../types/user.type.js';
+import { UserEntity } from '../user/user.entity.js';
 
 const {prop, modelOptions} = typegoose;
 
@@ -19,51 +15,57 @@ export interface OfferEntity extends defaultClasses.Base {}
 })
 
 // Сущность Offer
-export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
+export class OfferEntity extends defaultClasses.TimeStamps {
 
-  @prop({required: true,})
+  @prop({required: true})
   public title!: string;
 
-  @prop({required: true,})
+  @prop({required: true})
   public description!: string;
 
-  @prop({required: true,})
+  @prop({required: true})
   public date!: Date;
 
-  @prop({required: true,})
+  @prop({required: true})
   public city!: string;
 
-  @prop({required: true,})
+  @prop({required: true})
   public previewImage!: string;
 
-  @prop({required: true,})
-  public images!: Image[];
+  @prop({required: true})
+  public images!: string[];
 
-  @prop({required: true,})
+  @prop({
+    required: true,
+    default: false
+  })
   public isPremium!: boolean;
 
-  @prop({required: true,})
+  @prop({required: true})
   public rating!: number;
 
-  @prop({required: true,})
+  @prop({required: true})
   public type!: string;
 
-  @prop({required: true,})
+  @prop({required: true})
   public bedrooms!: number;
 
-  @prop({required: true,})
+  @prop({required: true})
   public maxAdults!: number;
 
-  @prop({required: true,})
+  @prop({required: true})
   public price!: number;
 
-  @prop({required: true,})
-  public goods!: Good[];
+  @prop({required: true})
+  public goods!: string[];
 
-  @prop({required: true,})
-  public host!: User;
+  @prop({
+    required: true,
+    ref: UserEntity
+  })
+  public userId!: Ref<UserEntity>;
 
-  @prop({required: true,})
+  @prop({required: true})
   public location!: Location;
 }
 
