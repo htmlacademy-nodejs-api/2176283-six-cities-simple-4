@@ -28,7 +28,7 @@ paths:
         content:
           application/json:
             schema:
-              ref: '#/components/schemas/createUser'
+              $ref: '#/components/schemas/createUser'
         required: true
 
       responses:
@@ -37,7 +37,7 @@ paths:
           content:
             application/json:
               schema:
-                ref: '#/components/schemas/user'
+                $ref: '#/components/schemas/user'
 
         "409":
           description: Пользователь с таким 'email' уже существует
@@ -64,7 +64,7 @@ paths:
       description: Загружает изображение аватара пользователя.
         Изображение аватара должно быть в формате `png` или `jpg`.
 
-comments:
+components:
   schemas:
     createUser:
       type: object
