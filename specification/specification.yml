@@ -86,7 +86,6 @@ paths:
               $ref: '#/components/schemas/createOffer'
         required: true
 
-
       responses:
         "201":
           description: Предложение создано. Объект предложения
@@ -131,6 +130,25 @@ paths:
         - comments
       summary: Добавление комментария по предложению
       description: Добавляет комментарий по предложению
+
+      requestBody:
+        description:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createComment'
+        required: true
+
+      responses:
+        "201":
+          description: Комментарий создан. Объект комментария
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+
+        "409":
+          description: Ошибка. Комментарий не добавлен
 
 
 components:
@@ -345,3 +363,49 @@ components:
         updatedAt:
           type: Date
           example: 2023-06-05T18:41:47.408Z
+
+
+    createComment:
+      type: object
+
+      properties:
+        comment:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+
+        rating:
+          type: number
+          example: 4
+
+
+    comment:
+      type: object
+
+      properties:
+        comment:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+
+        date:
+          type: Date
+          example: 2023-06-05T18:41:47.408Z
+
+        id:
+          type: number
+          example: 2
+
+        rating:
+          type: number
+          example: 4
+
+        user:
+          type: object
+
+          properties:
+            id:
+              type: string
+              example: 734cs798cs9794cd47441ds151pl
+
+            email:
+              type: string
+              example: JohnValyalkin@inbox.ru
