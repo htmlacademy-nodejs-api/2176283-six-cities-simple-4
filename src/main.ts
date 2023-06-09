@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import RestApplication from './app/rest.js';
 import { Container } from 'inversify';
 import { AppComponent } from './types/app-component.enum.js';
