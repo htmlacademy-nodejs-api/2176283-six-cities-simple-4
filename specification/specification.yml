@@ -9,7 +9,7 @@ info:
   version: 2.0.0
 tags:
   - name: offers
-    description: Действия с объявлениями
+    description: Действия с предложениями
   - name: comments
     description: Действия с комментариями
   - name: users
@@ -22,6 +22,26 @@ paths:
         - users
       summary: Регистрация пользователя
       description: Регистрирует нового пользователя
+
+      requestBody:
+        description: Информация для создания нового пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        "201":
+          description: Пользователь зарегистрирован. Объект пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        "409":
+          description: Пользователь с таким 'email' уже существует
+
 
   /users/ligin:
     post:
@@ -43,3 +63,349 @@ paths:
       summary: Загрузить изображение аватара
       description: Загружает изображение аватара пользователя.
         Изображение аватара должно быть в формате `png` или `jpg`.
+
+
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Получить список предложений
+      description: Получает список предложений
+
+    post:
+      tags:
+        - offers
+      summary: Создание нового предложения
+      description: Создает новое предложение
+
+      requestBody:
+        description:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOffer'
+        required: true
+
+      responses:
+        "201":
+          description: Предложение создано. Объект предложения
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
+        "409":
+          description: Ошибка. Предложение не создано
+
+
+  /offers/{offerId}:
+    get:
+      tags:
+        - offers
+      summary: Детальная информация по предложению
+      description: Получает детальную информацию по предложению
+
+    put:
+      tags:
+        - offers
+      summary: Редактирование предложения
+      description: Редактирует предложение
+
+    delete:
+      tags:
+        - offers
+      summary: Удаление предложения
+      description: Удаляет предложение
+
+
+  /comments/{offerId}:
+    get:
+      tags:
+        - comments
+      summary: Получить список комментариев по предложению
+      description: Получает список кооментариев по предложению
+
+    post:
+      tags:
+        - comments
+      summary: Добавление комментария по предложению
+      description: Добавляет комментарий по предложению
+
+      requestBody:
+        description:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createComment'
+        required: true
+
+      responses:
+        "201":
+          description: Комментарий создан. Объект комментария
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+
+        "409":
+          description: Ошибка. Комментарий не добавлен
+
+
+components:
+  schemas:
+    createUser:
+      type: object
+
+      properties:
+        email:
+          type: string
+          example: JohnValyalkin@inbox.ru
+
+        nick:
+          type: string
+          example: John_Valyalkin
+
+        password:
+          type: string
+          example: 123456789
+
+        isPro:
+          type: boolean
+          example: true
+
+    user:
+      type: object
+
+      properties:
+        id:
+          type: string
+          example: 734cs798cs9794cd47441ds151pl
+
+        email:
+          type: string
+          example: JohnValyalkin@inbox.ru
+
+    createOffer:
+      type: object
+
+      properties:
+        title:
+          type: string
+          example: Раскошный пентхаус с отдельным входом
+
+        description:
+          type: string
+          example: Шикарный пентхаус с двумя ярусами
+
+        date:
+          type: Date
+          example: 2023-02-04T12:05:36.283Z
+
+        city:
+          type: string
+          example: Amsterdam
+
+        previewImage:
+          type: string
+          example: pagemini02.jpg
+
+        images:
+          type: [string]
+          example: [page01.jpg, page02.jpg, page03.jpg, page04.jpg, page05.jpg, page06.jpg]
+
+        isPremium:
+          type: boolean
+          example: false
+
+        rating:
+          type: number
+          example: 3
+
+        type:
+          type: string
+          example: house
+
+        bedrooms:
+          type: number
+          example: 8
+
+        maxAdults:
+          type: number
+          example: 9
+
+        price:
+          type: number
+          example: 534
+
+        goods:
+          type: [string]
+          example: [Air conditioning, Laptop friendly workspace, Washer, Towels]
+
+        user:
+          type: object
+
+          properties:
+            email:
+              type: string
+              example: SaraCo@mail.ru
+
+            nick:
+              type: string
+              example: Sara Conor
+
+            avatar:
+              type: string
+              example: avatar01.jpg
+
+            password:
+              type: string
+              example: 6y7u8i9o
+
+            isPro:
+              type: boolean
+              example: false
+
+        location:
+          type: object
+
+          properties:
+            latitude:
+              type: number
+              example: 48.85669
+            longitude:
+              type: number
+              example: 2.351490
+
+
+    offer:
+      type: object
+
+      properties:
+        title:
+          type: string
+          example: Раскошный пентхаус с отдельным входом
+
+        description:
+          type: string
+          example: Шикарный пентхаус с двумя ярусами
+
+        date:
+          type: Date
+          example: 2023-02-04T12:05:36.283Z
+
+        city:
+          type: string
+          example: Amsterdam
+
+        previewImage:
+           type: string
+           example: pagemini02.jpg
+
+        images:
+          type: [string]
+          example: [page01.jpg, page02.jpg, page03.jpg, page04.jpg, page05.jpg, page06.jpg]
+
+        isPremium:
+          type: boolean
+          example: false
+
+        rating:
+          type: number
+          example: 3
+
+        type:
+          type: string
+          example: house
+
+        bedrooms:
+          type: number
+          example: 8
+
+        maxAdults:
+          type: number
+          example: 9
+
+        price:
+          type: number
+          example: 534
+
+        goods:
+          type: [string]
+          example: [Air conditioning, Laptop friendly workspace, Washer, Towels]
+
+        user:
+          type: object
+
+          properties:
+            email:
+              type: string
+              example: SaraCo@mail.ru
+
+            id:
+              type: string
+              example: 734cs798cs9794cd47441ds151pl
+
+        location:
+          type: object
+
+          properties:
+            latitude:
+              type: number
+              example: 48.85669
+            longitude:
+              type: number
+              example: 2.351490
+
+        createdAt:
+          type: Date
+          example: 2023-06-05T18:41:47.408Z
+
+        updatedAt:
+          type: Date
+          example: 2023-06-05T18:41:47.408Z
+
+
+    createComment:
+      type: object
+
+      properties:
+        comment:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+
+        rating:
+          type: number
+          example: 4
+
+
+    comment:
+      type: object
+
+      properties:
+        comment:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+
+        date:
+          type: Date
+          example: 2023-06-05T18:41:47.408Z
+
+        id:
+          type: number
+          example: 2
+
+        rating:
+          type: number
+          example: 4
+
+        user:
+          type: object
+
+          properties:
+            id:
+              type: string
+              example: 734cs798cs9794cd47441ds151pl
+
+            email:
+              type: string
+              example: JohnValyalkin@inbox.ru
