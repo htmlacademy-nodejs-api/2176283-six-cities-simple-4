@@ -41,8 +41,15 @@ types.ModelType<OfferEntity>
     return this.offerModel.findByIdAndUpdate(offerId, dto, {new: true}).populate(['userId']).exec();
   }
 
-  public async incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findByIdAndUpdate(offerId, {'$inc': {commentCount: 1}}).exec();
+  public async incCommentCount(offerId: string, newEstimation: number): Promise<DocumentType<OfferEntity> | null> {
+    const currentOffer = await this.offerModel.findById(offerId);
+    if(!currentOffer) {
+      return null;
+    }
+    return this.offerModel.findByIdAndUpdate(offerId, {
+      '$inc': {commentCount: 1},
+      '$set': { rating: ((currentOffer.rating + newEstimation) / (currentOffer.commentCount + 1)).toFixed(1)}
+    }).exec();
   }
 
   public async exists(documentId: string): Promise<boolean> {

@@ -2,6 +2,6 @@
 export default class CreateCommentDto {
   public text!: string;
   public rating!: number;
-  public oferId!: string;
+  public offerId!: string;
   public userId!: string;
 }
