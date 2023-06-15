@@ -4,6 +4,8 @@ import { AppComponent } from '../../types/app-component.enum.js';
 import OfferService from './offer.service.js';
 import { types } from '@typegoose/typegoose';
 import { OfferEntity, OfferModel } from './offer.entity.js';
+import OfferController from './offer.controller.js';
+import { ControllerInterface } from '../../core/controller/controller.interface.js';
 
 /**
  *
@@ -17,6 +19,9 @@ export function createOfferConteiner() {
 
   offerConteiner.bind<types.ModelType<OfferEntity>>(AppComponent.OfferModel)
     .toConstantValue(OfferModel);
+
+  offerConteiner.bind<ControllerInterface>(AppComponent.OfferController)
+    .to(OfferController).inSingletonScope();
 
   return offerConteiner;
 }
