@@ -5,6 +5,8 @@ import { AppComponent } from '../../types/app-component.enum.js';
 import { LoggerInterface } from '../../core/logger/logger.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
+import { fillDTO } from '../../core/helpers/index.js';
+import OfferRdo from './rdo/offer.rdo.js';
 
 @injectable()
 export default class OfferController extends Controller {
@@ -21,7 +23,8 @@ export default class OfferController extends Controller {
 
   public async list(_req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.find();
-    this.ok(res, offers);
+    const offersToResponce = fillDTO(OfferRdo, offers);
+    this.ok(res, offersToResponce);
   }
 
 }

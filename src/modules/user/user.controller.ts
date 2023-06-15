@@ -5,6 +5,8 @@ import { LoggerInterface } from '../../core/logger/logger.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { Request, Response } from 'express';
 import { UserServiceInterface } from './user-service.interface.js';
+import { fillDTO } from '../../core/helpers/index.js';
+import UserRdo from './rdo/user.rdo.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -20,6 +22,7 @@ export default class UserController extends Controller {
 
   public async index(_req: Request, res: Response): Promise<void> {
     const user = await this.userService.findByEmail('JohnVal@mail.ru');
-    this.ok(res, user);
+    const userToResponce = fillDTO(UserRdo, user);
+    this.ok(res, userToResponce);
   }
 }
