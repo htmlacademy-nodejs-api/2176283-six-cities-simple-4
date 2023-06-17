@@ -13,6 +13,7 @@ import { ControllerInterface } from '../core/controller/controller.interface.js'
  * @method _initDb для получения строки подключения (Connection String)
  * и установки соединения
  * @method _initServer отвечает за инициализацию сервера
+ * @method _initMiddleware преобразовывает тело http-запроса из JSON в объект
  * @method init отвечает за инициализацию приложения
  */
 @injectable()
@@ -59,10 +60,17 @@ export default class RestApplication {
     this.logger.info('Controller initialization completed');
   }
 
+  private async _initMiddleware() {
+    this.logger.info('Global middleware initialization...');
+    this.expressApplication.use(express.json());
+    this.logger.info('Global middleware initialization completed');
+  }
+
   public async init() {
     this.logger.info('Application initialization...');
 
     await this._initDb();
+    await this._initMiddleware();
     await this._initRoutes();
     await this._initServer();
   }
