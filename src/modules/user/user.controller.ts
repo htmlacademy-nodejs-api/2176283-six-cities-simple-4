@@ -3,7 +3,7 @@ import { Controller } from '../../core/controller/controller.abstract.js';
 import { AppComponent } from '../../types/app-component.enum.js';
 import { LoggerInterface } from '../../core/logger/logger.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UserServiceInterface } from './user-service.interface.js';
 import { fillDTO } from '../../core/helpers/index.js';
 import UserRdo from './rdo/user.rdo.js';
@@ -28,10 +28,14 @@ export default class UserController extends Controller {
     this.ok(res, userToResponce);
   }
 
-  public create(
+  public async create(
     _req: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
-    _res: Response
-  ) : void {
-    throw new Error('[[UserController] Oops]');
+    _res: Response, next: NextFunction
+  ) : Promise<void> {
+    try {
+      throw new Error('[[UserController] Oops]');
+    } catch (error) {
+      return next(error);
+    }
   }
 }
