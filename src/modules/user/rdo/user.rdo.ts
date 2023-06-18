@@ -2,10 +2,13 @@ import { Expose } from 'class-transformer';
 
 export default class UserRdo {
   @Expose()
-  public id!: string;
+  public nick!: string;
 
   @Expose()
-  public nick!: string;
+  public email!: string;
+
+  @Expose()
+  public avatar!: string;
 
   @Expose()
   public isPro!: boolean;

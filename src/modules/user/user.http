@@ -16,7 +16,7 @@ Content-Type: application/json
   "email": "torentino@films.com",
   "avatar": "torface.png",
   "password": "dfyvkbn",
-  "isPro": true
+  "isPro": false
 }
 
 ###
