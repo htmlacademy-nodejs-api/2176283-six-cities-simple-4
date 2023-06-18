@@ -12,6 +12,7 @@ import { ConfigInterface } from '../../core/config/config.interface.js';
 import { RestSchema } from '../../core/config/rest.schema.js';
 import HttpError from '../../core/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
+import LoginUserDto from './dto/login-user.dto.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -22,15 +23,25 @@ export default class UserController extends Controller {
   ){
     super(logger);
     this.logger.info('Register routes for UserController...');
-
-    this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
+    this.addRoute({path: '/login', method: HttpMethod.Post, handler: this.login});
     this.addRoute({path: '/register', method: HttpMethod.Post, handler: this.create});
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-    const user = await this.userService.findByEmail('JohnVal@mail.ru');
-    const userToResponce = fillDTO(UserRdo, user);
-    this.ok(res, userToResponce);
+  public async login(
+    {body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
+    _res: Response
+  ): Promise<void> {
+    const existUser = await this.userService.findByEmail(body.email);
+
+    if (!existUser){
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED, `User with email ${body.email} not found.`, 'UserController',
+      );
+    }
+
+    throw new HttpError(
+      StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController',
+    );
   }
 
   public async create(
