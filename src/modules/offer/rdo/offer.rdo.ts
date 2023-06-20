@@ -1,51 +1,54 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { Location } from '../../../types/location.type.js';
-import { OfferType } from '../../../types/offer-type.enum.js';
-import { User } from '../../../types/user.type.js';
+import UserRdo from '../../user/rdo/user.rdo.js';
 
 export default class OfferRdo {
-@Expose()
-  title!: string;
+  @Expose()
+  public id!: string;
 
-@Expose()
-public description!: string;
+  @Expose()
+  public title!: string;
 
-@Expose()
-public date!: Date;
+  @Expose()
+  public description!: string;
 
-@Expose()
-public city!: string;
+  @Expose()
+  public date!: Date;
 
-@Expose()
-public previewImage!: string;
+  @Expose()
+  public city!: string;
 
-@Expose()
-public images!: string[];
+  @Expose()
+  public previewImage!: string;
 
-@Expose()
-public isPremium!: boolean;
+  @Expose()
+  public images!: string[];
 
-@Expose()
-public rating!: number;
+  @Expose()
+  public isPremium!: boolean;
 
-@Expose()
-public type!: OfferType;
+  @Expose()
+  public rating!: number;
 
-@Expose()
-  bedrooms!: number;
+  @Expose()
+  public type!: string;
 
-@Expose()
-public maxAdults!: number;
+  @Expose()
+  public bedrooms!: number;
 
-@Expose()
-public price!: number;
+  @Expose()
+  public maxAdults!: number;
 
-@Expose()
-public goods!: string[];
+  @Expose()
+  public price!: number;
 
-@Expose()
-public user!: User;
+  @Expose()
+  public goods!: string[];
 
-@Expose()
-public location!: Location;
+  @Expose({name: 'userId'})
+  @Type(() => UserRdo)
+  public user!: UserRdo;
+
+  @Expose()
+  public location!: Location;
 }

@@ -6,7 +6,13 @@ Content-Type: application/json
 
 ###
 
-## Добавиьть новое предложение
+## Информация о предложении по идентификатору
+
+GET http://localhost:4500/offers/647e2c6b576583b562b45a98 HTTP/1.1
+
+###
+
+## Добавить новое предложение
 
 POST http://localhost:4500/offers HTTP/1.1
 Content-Type: application/json
@@ -31,3 +37,26 @@ Content-Type: application/json
     "longitude": 5465
     }
 }
+
+###
+
+## Редактирование предложения
+
+PATCH  http://localhost:4500/offers/647e327b6c1c7c0a0fe89e8c HTTP/1.1
+Content-Type: application/json
+
+{
+  "type": "house",
+  "bedrooms": 5,
+  "maxAdults": 8,
+  "price": 1100
+}
+
+###
+
+## Удаление предложения
+
+DELETE  http://localhost:4500/offers/647e2c6b576583b562b45a95 HTTP/1.1
+Content-Type: application/json
+
+###
