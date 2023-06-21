@@ -12,6 +12,7 @@ import CreateOfferDto from './dto/create-offer.dto.js';
 import HttpError from '../../core/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import UpdateOfferDto from './dto/update-offer.dto.js';
+import { RequestQuery } from '../../types/request-query.type.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -34,8 +35,8 @@ export default class OfferController extends Controller {
     this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.delete});
   }
 
-  public async list(_req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.find();
+  public async list({query}: Request<RequestQuery, unknown>, res: Response): Promise<void> {
+    const offers = await this.offerService.find(Number(query.limit));
     const offersToResponce = fillDTO(OfferRdo, offers);
     this.ok(res, offersToResponce);
   }

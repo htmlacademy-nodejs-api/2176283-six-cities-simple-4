@@ -2,8 +2,8 @@
  * @member Get - получить
  * @member Post - опубликовать
  * @member Delete - удалить
- * @member Patch - изменить
- * @member Put - создать или заменить
+ * @member Patch - частичное обновление
+ * @member Put - полное обновление
  */
 export enum HttpMethod {
 Get = 'get',
