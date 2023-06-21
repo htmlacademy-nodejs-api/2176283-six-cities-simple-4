@@ -28,6 +28,7 @@ export default class RestApplication {
     @inject(AppComponent.UserController) private readonly userController: ControllerInterface,
     @inject(AppComponent.OfferController) private readonly offerController: ControllerInterface,
     @inject(AppComponent.ExceptionFilterInterface) private readonly exceptionFilter: ExceptionFilterInterface,
+    @inject(AppComponent.CommentController)private readonly commentController: ControllerInterface,
   ) {
     this.expressApplication = express();
   }
@@ -60,6 +61,7 @@ export default class RestApplication {
     this.logger.info('Controller initialization...');
     this.expressApplication.use('/users', this.userController.router);
     this.expressApplication.use('/offers', this.offerController.router);
+    this.expressApplication.use('/comments', this.commentController.router);
     this.logger.info('Controller initialization completed');
   }
 
