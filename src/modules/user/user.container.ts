@@ -4,10 +4,12 @@ import { AppComponent } from '../../types/app-component.enum.js';
 import UserService from './user.service.js';
 import { types } from '@typegoose/typegoose';
 import { UserEntity, UserModel } from './user.entity.js';
+import { ControllerInterface } from '../../core/controller/controller.interface.js';
+import UserController from './user.controller.js';
 
 /**
  *
- * Функцыя для создания экземпляра класса 'UserService'
+ * Функция для создания экземпляра класса 'UserService'
  */
 export function createUserContainer() {
   const userContainer = new Container();
@@ -17,6 +19,9 @@ export function createUserContainer() {
 
   userContainer.bind<types.ModelType<UserEntity>>(AppComponent.UserModel)
     .toConstantValue(UserModel);
+
+  userContainer.bind<ControllerInterface>(AppComponent.UserController)
+    .to(UserController).inSingletonScope();
 
   return userContainer;
 }
