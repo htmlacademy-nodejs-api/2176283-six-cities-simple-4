@@ -12,6 +12,13 @@ GET http://localhost:4500/offers/647e2c6b576583b562b45a98 HTTP/1.1
 
 ###
 
+##Получить список комментариев предложения
+
+GET  http://localhost:4500/offers/647e2c6b576583b562b45a98/comments HTTP/1.1
+Content-Type: application/json
+
+###
+
 ## Добавить новое предложение
 
 POST http://localhost:4500/offers HTTP/1.1
