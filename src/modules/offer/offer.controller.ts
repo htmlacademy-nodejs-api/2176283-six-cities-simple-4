@@ -15,6 +15,7 @@ import UpdateOfferDto from './dto/update-offer.dto.js';
 import { RequestQuery } from '../../types/request-query.type.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import CommentRdo from '../comment/rdo/comment.rdo.js';
+import { ValidateObjectMiddleware } from '../../common/middlewares/validate-objected.middleware.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -32,11 +33,36 @@ export default class OfferController extends Controller {
     this.logger.info('Register routes for OfferController...');
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.list});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Get, handler: this.infoOfferId});
-    this.addRoute({path: '/:offerId/comments', method: HttpMethod.Get, handler: this.commentsOffer});
+
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Get,
+      handler: this.infoOfferId,
+      middleware: [new ValidateObjectMiddleware('offerId')]
+    });
+
+    this.addRoute({
+      path: '/:offerId/comments',
+      method: HttpMethod.Get,
+      handler: this.commentsOffer,
+      middleware: [new ValidateObjectMiddleware('offerId')]
+    });
+
     this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Patch, handler: this.update});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.delete});
+
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Patch,
+      handler: this.update,
+      middleware: [new ValidateObjectMiddleware('offerId')]
+    });
+
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Delete,
+      handler: this.delete,
+      middleware: [new ValidateObjectMiddleware('offerId')]
+    });
   }
 
   public async list({query}: Request<RequestQuery, unknown>, res: Response): Promise<void> {
