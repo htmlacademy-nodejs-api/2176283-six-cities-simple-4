@@ -16,6 +16,7 @@ import { RequestQuery } from '../../types/request-query.type.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import CommentRdo from '../comment/rdo/comment.rdo.js';
 import { ValidateObjectMiddleware } from '../../common/middlewares/validate-objected.middleware.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -48,7 +49,12 @@ export default class OfferController extends Controller {
       middleware: [new ValidateObjectMiddleware('offerId')]
     });
 
-    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create});
+    this.addRoute({
+      path: '/',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middleware: [new ValidateDtoMiddleware(CreateOfferDto)]
+    });
 
     this.addRoute({
       path: '/:offerId',
