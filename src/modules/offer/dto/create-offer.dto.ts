@@ -22,7 +22,7 @@ export default class CreateOfferDto {
   public previewImage!: string;
 
   @IsArray({message: 'Field images must be an array'})
-  @IsMongoId({each: true, message:'Goods field must be an array of valid id'})
+  @IsMongoId({each: true, message:'Images field must be an array of valid id'})
   public images!: string[];
 
   @IsBoolean()
