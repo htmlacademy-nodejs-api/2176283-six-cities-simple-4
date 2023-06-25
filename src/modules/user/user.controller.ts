@@ -23,8 +23,16 @@ export default class UserController extends Controller {
     @inject(AppComponent.ConfigInterface) private readonly configService: ConfigInterface<RestSchema>
   ){
     super(logger);
+
     this.logger.info('Register routes for UserController...');
-    this.addRoute({path: '/login', method: HttpMethod.Post, handler: this.login});
+
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Post,
+      handler: this.login,
+      middleware: [new ValidateDtoMiddleware(LoginUserDto)]
+    });
+
     this.addRoute({
       path: '/register',
       method: HttpMethod.Post,
