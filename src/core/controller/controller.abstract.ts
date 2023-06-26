@@ -21,7 +21,12 @@ export abstract class Controller implements ControllerInterface {
   }
 
   public addRoute(this: Controller, route: RouteInterface): void {
-    this.router[route.method](route.path, asyncHandler(route.handler.bind(this)));
+    const routeHandler = asyncHandler(route.handler.bind(this));
+    const middlewares = route.middleware?.map((middleware) =>
+      asyncHandler(middleware.execute.bind(middleware)));
+
+    const allMiddlewares = middlewares ? [...middlewares, routeHandler] : routeHandler;
+    this.router[route.method](route.path, allMiddlewares);
     this.logger.info(`Route registered: ${route.method.toUpperCase()} ${route.path}`);
   }
 

@@ -36,7 +36,7 @@ export class CommentEntity extends defaultClasses.TimeStamps {
     required: true,
     ref: OfferEntity
   })
-  public oferId!: Ref<OfferEntity>;
+  public offerId!: Ref<OfferEntity>;
 
   @prop({
     required: true,

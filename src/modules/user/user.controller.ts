@@ -13,6 +13,7 @@ import { RestSchema } from '../../core/config/rest.schema.js';
 import HttpError from '../../core/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import LoginUserDto from './dto/login-user.dto.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -22,9 +23,22 @@ export default class UserController extends Controller {
     @inject(AppComponent.ConfigInterface) private readonly configService: ConfigInterface<RestSchema>
   ){
     super(logger);
+
     this.logger.info('Register routes for UserController...');
-    this.addRoute({path: '/login', method: HttpMethod.Post, handler: this.login});
-    this.addRoute({path: '/register', method: HttpMethod.Post, handler: this.create});
+
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Post,
+      handler: this.login,
+      middleware: [new ValidateDtoMiddleware(LoginUserDto)]
+    });
+
+    this.addRoute({
+      path: '/register',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middleware: [new ValidateDtoMiddleware(CreateUserDto)]
+    });
   }
 
   public async login(
