@@ -17,6 +17,7 @@ import { CommentServiceInterface } from '../comment/comment-service.interface.js
 import CommentRdo from '../comment/rdo/comment.rdo.js';
 import { ValidateObjectMiddleware } from '../../common/middlewares/validate-objected.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
+import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -46,7 +47,10 @@ export default class OfferController extends Controller {
       path: '/:offerId/comments',
       method: HttpMethod.Get,
       handler: this.commentsOffer,
-      middleware: [new ValidateObjectMiddleware('offerId')]
+      middleware: [
+        new ValidateObjectMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ]
     });
 
     this.addRoute({
@@ -98,16 +102,6 @@ export default class OfferController extends Controller {
   public async commentsOffer({params}: Request<core.ParamsDictionary | ParamsGetOffer, object, object>,
     res: Response): Promise<void> {
     const {offerId} = params;
-    const offer = await this.offerService.exists(offerId);
-
-    if (!offer) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${offerId} not found`,
-        'OfferController'
-      );
-
-    }
     const comments = await this.commentService.findByOfferId(offerId);
     const commentsToResponce = fillDTO(CommentRdo, comments);
     this.ok(res, commentsToResponce);
