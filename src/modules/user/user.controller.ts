@@ -14,6 +14,8 @@ import HttpError from '../../core/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import LoginUserDto from './dto/login-user.dto.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
+import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
+import { ValidateObjectMiddleware } from '../../common/middlewares/validate-objected.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -38,6 +40,16 @@ export default class UserController extends Controller {
       method: HttpMethod.Post,
       handler: this.create,
       middleware: [new ValidateDtoMiddleware(CreateUserDto)]
+    });
+
+    this.addRoute({
+      path: '/:userId/avatar',
+      method: HttpMethod.Post,
+      handler: this.uploadAvatar,
+      middleware: [
+        new ValidateObjectMiddleware('userId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
+      ]
     });
   }
 
@@ -74,5 +86,9 @@ export default class UserController extends Controller {
 
     const result = await this.userService.create(body, this.configService.get('SALT'));
     this.created(res, fillDTO(UserRdo, result));
+  }
+
+  public async uploadAvatar(req: Request, res: Response) {
+    this.created(res, {filepath: req.file?.path});
   }
 }
