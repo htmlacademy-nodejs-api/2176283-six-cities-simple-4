@@ -5,7 +5,7 @@ import { LoggerInterface } from '../../core/logger/logger.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { Request, Response } from 'express';
 import { UserServiceInterface } from './user-service.interface.js';
-import { fillDTO } from '../../core/helpers/index.js';
+import { createJWT, fillDTO } from '../../core/helpers/index.js';
 import UserRdo from './rdo/user.rdo.js';
 import CreateUserDto from './dto/create-user.dto.js';
 import { ConfigInterface } from '../../core/config/config.interface.js';
@@ -16,6 +16,7 @@ import LoginUserDto from './dto/login-user.dto.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
 import { ValidateObjectMiddleware } from '../../common/middlewares/validate-objected.middleware.js';
+import { JWT_ALGORITM } from './user.constant.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -55,19 +56,29 @@ export default class UserController extends Controller {
 
   public async login(
     {body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
-    _res: Response
+    res: Response
   ): Promise<void> {
-    const existUser = await this.userService.findByEmail(body.email);
+    const user = await this.userService.verifyUser(body, this.configService.get('SALT'));
 
-    if (!existUser){
+    if (!user){
       throw new HttpError(
-        StatusCodes.UNAUTHORIZED, `User with email ${body.email} not found.`, 'UserController',
+        StatusCodes.UNAUTHORIZED, 'Unauthorized', 'UserController',
       );
     }
 
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController',
+    const token = await createJWT(
+      JWT_ALGORITM,
+      this.configService.get('JWT_SECRET'),
+      {
+        email: user.email,
+        id: user.id
+      }
     );
+
+    this.ok(res, fillDTO(LoginUserDto, {
+      email: user.email,
+      token
+    }));
   }
 
   public async create(
