@@ -16,6 +16,7 @@ import CommentRdo from '../comment/rdo/comment.rdo.js';
 import { ValidateObjectMiddleware } from '../../common/middlewares/validate-objected.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -58,7 +59,10 @@ export default class OfferController extends Controller {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middleware: [new ValidateDtoMiddleware(CreateOfferDto)]
+      middleware: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateOfferDto)
+      ]
     });
 
     this.addRoute({
@@ -66,6 +70,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Patch,
       handler: this.update,
       middleware: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectMiddleware('offerId'),
         new ValidateDtoMiddleware(CreateOfferDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
@@ -77,6 +82,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Delete,
       handler: this.delete,
       middleware: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ]
@@ -106,9 +112,9 @@ export default class OfferController extends Controller {
   }
 
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
+    {body, user}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
     res: Response): Promise<void> {
-    const result = await this.offerService.create(body);
+    const result = await this.offerService.create({...body, userId: user.id});
     this.created(res, fillDTO(OfferRdo, result));
   }
 

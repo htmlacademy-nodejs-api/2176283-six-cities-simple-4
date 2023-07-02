@@ -57,7 +57,6 @@ export default class CreateOfferDto {
   @IsMongoId({each: true, message:'Goods field must be an array of valid id'})
   public goods!: Good[];
 
-  @IsMongoId({message: 'userId field must be valid an id'})
   public userId!: string;
 
   @IsNotEmptyObject()
