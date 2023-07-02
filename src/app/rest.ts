@@ -8,6 +8,7 @@ import { getMongoURI } from '../core/helpers/database.js';
 import express, { Express } from 'express';
 import { ControllerInterface } from '../core/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../core/exception-filters/exception-filter.interface.js';
+import { AuthentificateMiddleware } from '../common/middlewares/authenticate.middleware.js';
 
 /**
  * Класс для прослушивания порта и приема подключения
@@ -69,6 +70,8 @@ export default class RestApplication {
     this.logger.info('Global middleware initialization...');
     this.expressApplication.use(express.json());
     this.expressApplication.use('/upload', express.static(this.config.get('UPLOAD_DIRECTORY')));
+    const authenticateMiddleware = new AuthentificateMiddleware(this.config.get('JWT_SECRET'));
+    this.expressApplication.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
     this.logger.info('Global middleware initialization completed');
   }
 

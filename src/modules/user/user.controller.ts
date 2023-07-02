@@ -17,6 +17,7 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
 import { ValidateObjectMiddleware } from '../../common/middlewares/validate-objected.middleware.js';
 import { JWT_ALGORITM } from './user.constant.js';
+import LoggedUserRdo from './rdo/logged-user.rdo.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -75,7 +76,7 @@ export default class UserController extends Controller {
       }
     );
 
-    this.ok(res, fillDTO(LoginUserDto, {
+    this.ok(res, fillDTO(LoggedUserRdo, {
       email: user.email,
       token
     }));
