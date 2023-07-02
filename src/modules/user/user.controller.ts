@@ -53,6 +53,12 @@ export default class UserController extends Controller {
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
       ]
     });
+
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Get,
+      handler: this.checkAuthentificate,
+    });
   }
 
   public async login(
@@ -102,5 +108,26 @@ export default class UserController extends Controller {
 
   public async uploadAvatar(req: Request, res: Response) {
     this.created(res, {filepath: `/${req.file?.destination}/${req.file?.filename}`});
+  }
+
+  public async checkAuthentificate({user}: Request, res: Response) {
+    if(!user) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
+    const foundedUser = await this.userService.findByEmail(user.email);
+
+    if(!foundedUser) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
   }
 }

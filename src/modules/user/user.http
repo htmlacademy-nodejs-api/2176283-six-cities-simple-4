@@ -45,3 +45,10 @@ Content-Type: image/jpeg
 < \Users\ivanp\OneDrive\Изображения\avatar.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 ###
+
+## Проверка токена пользователя
+
+GET http://localhost:4500/users/login HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcnJlbnRpbm8yQGZpbG1zLmNvbSIsImlkIjoiNjRhMGJkMzdjZTBlMmI4YTEwMzBlZDY0IiwiaWF0IjoxNjg4MzExNzk4LCJleHAiOjE2ODgzOTgxOTh9.ALXZv7dqFAmY6g5LaUeA7M3Ixt59fJ0emBl0Fj2xFBU
+
+###

@@ -39,7 +39,8 @@ export default class CommentController extends Controller {
   public async create (
     { body, user }: Request<object, object, CreateCommentDto>, res: Response): Promise<void> {
     if(!await this.offerService.exists(body.offerId)) {
-      throw new HttpError(StatusCodes.NOT_FOUND,`Offer with id ${body.offerId} not found`,
+      throw new HttpError(StatusCodes.NOT_FOUND,
+        `Offer with id ${body.offerId} not found`,
         'CommentController');
     }
     const comment = await this.commentService.create({...body, userId: user.id});
