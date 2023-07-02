@@ -6,6 +6,18 @@ Content-Type: application/json
 
 ###
 
+## Авторизовать пользователя
+
+Post http://localhost:4500/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "torrentino2@films.com",
+  "password": "dfyvww"
+}
+
+###
+
 ## Создать нового пользователя
 
 POST http://localhost:4500/users/register HTTP/1.1
@@ -18,5 +30,25 @@ Content-Type: application/json
   "password": "dfyvww",
   "isPro": false
 }
+
+###
+
+## Отправка аватарки пользователя
+
+POST http://localhost:4500/users/648f5dbfb6e4325864c9dd2c/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="avatar.jpg"
+Content-Type: image/jpeg
+
+< \Users\ivanp\OneDrive\Изображения\avatar.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+###
+
+## Проверка токена пользователя
+
+GET http://localhost:4500/users/login HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcnJlbnRpbm8yQGZpbG1zLmNvbSIsImlkIjoiNjRhMGJkMzdjZTBlMmI4YTEwMzBlZDY0IiwiaWF0IjoxNjg4MzExNzk4LCJleHAiOjE2ODgzOTgxOTh9.ALXZv7dqFAmY6g5LaUeA7M3Ixt59fJ0emBl0Fj2xFBU
 
 ###

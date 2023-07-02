@@ -2,6 +2,7 @@ import CreateOfferDto from './dto/create-offer.dto.js';
 import { DocumentType } from '@typegoose/typegoose';
 import { OfferEntity } from './offer.entity.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
+import { DocumentExistsInterface } from '../../types/document-exists.interface.js';
 
 /**
  * интерфейс управления офферами
@@ -13,7 +14,7 @@ import UpdateOfferDto from './dto/update-offer.dto.js';
  * @method incCommentCount - увеличение счета комментариев и расчет среднего рейтинга при добавлении комментария
  * @method exists - проверка на наличие предложения
  */
-export interface OfferServiceInterface {
+export interface OfferServiceInterface extends DocumentExistsInterface {
   create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>>;
   findOfferById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   find(count?: number): Promise<DocumentType<OfferEntity>[]>;

@@ -2,6 +2,8 @@ import { MinLength, MaxLength, IsDateString, IsInt, IsBoolean, IsMongoId, IsEnum
 import { Location } from '../../../types/location.type.js';
 import { OfferType } from '../../../types/offer-type.enum.js';
 import { OfferCity } from '../../../types/offer-city.enum.js';
+import { Image } from '../../../types/image.type.js';
+import { Good } from '../../../types/good.type.js';
 
 export default class CreateOfferDto {
   @MinLength(10, {message: 'Minimum title length must be 10'})
@@ -23,7 +25,7 @@ export default class CreateOfferDto {
 
   @IsArray({message: 'Field images must be an array'})
   @IsMongoId({each: true, message:'Images field must be an array of valid id'})
-  public images!: string[];
+  public images!: Image[];
 
   @IsBoolean()
   public isPremium!: boolean;
@@ -53,9 +55,8 @@ export default class CreateOfferDto {
 
   @IsArray({message: 'Field goods must be an array'})
   @IsMongoId({each: true, message:'Goods field must be an array of valid id'})
-  public goods!: string[];
+  public goods!: Good[];
 
-  @IsMongoId({message: 'userId field must be valid an id'})
   public userId!: string;
 
   @IsNotEmptyObject()
