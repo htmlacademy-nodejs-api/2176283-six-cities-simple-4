@@ -1,5 +1,7 @@
 import { Offer } from '../../types/offer.type.js';
 
+const DEFAULT_NUMBER_SYSTEM = 10;
+
 export function createOffer(offerData: string): Offer {
   const [
     title,
@@ -48,9 +50,9 @@ export function createOffer(offerData: string): Offer {
     isPremium: Boolean(isPremium),
     rating: Number.parseFloat(rating),
     type,
-    bedrooms: Number.parseInt(bedrooms, 10),
-    maxAdults: Number.parseInt(maxAdults, 10),
-    price: Number.parseInt(price, 10),
+    bedrooms: Number.parseInt(bedrooms, DEFAULT_NUMBER_SYSTEM),
+    maxAdults: Number.parseInt(maxAdults, DEFAULT_NUMBER_SYSTEM),
+    price: Number.parseInt(price, DEFAULT_NUMBER_SYSTEM),
     goods: goods.split(';')
       .map((name) => ({name})),
     user,
